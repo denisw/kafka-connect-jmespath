@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.denisw.kafka</groupId>
+  <artifactId>kafka-connect-jmespath</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/denisw/kafka-connect-jmespath</url>
+    <connection>scm:git:git://github.com/denisw/kafka-connect-jmespath.git</connection>
+    <developerConnection>scm:git:git@github.com:denisw/kafka-connect-jmespath.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <confluent.version>6.1.0</confluent.version>
+    <kafka.version>${confluent.version}-ccs</kafka.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <url>https://packages.confluent.io/maven/</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>connect-api</artifactId>
+      <version>${kafka.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.burt</groupId>
+      <artifactId>jmespath-core</artifactId>
+      <version>0.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.7.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+      </plugin>
+
+      <plugin>
+        <groupId>io.confluent</groupId>
+        <artifactId>kafka-connect-maven-plugin</artifactId>
+        <version>0.12.0</version>
+        <configuration>
+          <title>Kafka Connect JMESPath</title>
+          <documentationUrl>https://github.com/denisw/kafka-connect-jmespath</documentationUrl>
+          <description>
+            A set of Single Message Transformation (SMT) predicates that check record keys or values against a JMESPath query expressions. Can be used to filter records or transform them conditionally.
+          </description>
+          <logo>assets/jmespath-logo.png</logo>
+
+          <ownerUsername>denisw</ownerUsername>
+          <ownerType>user</ownerType>
+          <ownerName>Denis Washington</ownerName>
+          <ownerUrl>https://github.com/denisw</ownerUrl>
+
+          <componentTypes>
+            <componentType>transform</componentType>
+          </componentTypes>
+
+          <tags>
+            <tag>jmespath</tag>
+            <tag>predicate</tag>
+            <tag>filter</tag>
+          </tags>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
