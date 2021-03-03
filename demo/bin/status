@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+bin_dir=$(dirname "$0")
+demo_dir="$bin_dir/.."
+connectors_dir="$demo_dir/connectors"
+
+for connector_file in "$connectors_dir"/*.json; do
+  connector=$(basename -s .json "$connector_file")
+  echo "Getting connector status: $connector ..."
+  http --check-status "http://localhost:8083/connectors/$connector/status"
+done

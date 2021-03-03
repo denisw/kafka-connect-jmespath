@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+bin_dir=$(dirname "$0")
+demo_dir="$bin_dir/.."
+
+exec docker-compose \
+  -p "kafka-connect-jmespath-demo" \
+  -f "$demo_dir/docker-compose.yml" \
+  "$@"

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+bin_dir=$(dirname "$0")
+demo_dir="$bin_dir/.."
+connectors_dir="$demo_dir/connectors"
+
+if ! command -v http &> /dev/null; then
+  echo "Could not find HTTPie, which is used by this script." 1>&2
+  echo "https://httpie.io/docs#installation" 1>&2
+  exit 1
+fi
+
+echo "Setting up demo environment ..."
+"$bin_dir/docker-compose" up -d
+
+echo "Waiting for Kafka Connect to be available ..."
+while ! http --check-status http://localhost:8083/ &>/dev/null ; do
+  sleep 1
+done
+
+for connector_file in "$connectors_dir"/*.json; do
+  connector=$(basename -s .json "$connector_file")
+  echo "Installing connector: $connector ..."
+  http PUT "http://localhost:8083/connectors/$connector/config" \
+    --check-status \
+    < "$connector_file"
+done

@@ -1,0 +1,20 @@
+{
+  "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+  "connection.uri": "mongodb://connect:connect@mongo:27017",
+  "database": "connect",
+  "topics": "orders",
+  "collection": "orders_city13",
+
+  "tasks.max": "1",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter.schemas.enable": "false",
+
+  "transforms": "Filter",
+  "transforms.Filter.type": "org.apache.kafka.connect.transforms.Filter",
+  "transforms.Filter.predicate": "City13",
+
+  "predicates": "City13",
+  "predicates.City13.type": "de.denisw.kafka.connect.jmespath.MatchesJMESPath$Value",
+  "predicates.City13.query": "!ends_with(address.city, '_13')"
+}

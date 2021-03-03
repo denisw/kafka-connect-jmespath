@@ -35,7 +35,7 @@ services:
       KAFKA_JMX_HOSTNAME: localhost
 
   connect:
-    image: confluentinc/cp-kafka-connect:6.1.0
+    build: ./docker/kafka-connect-jmespath
     hostname: connect
     depends_on:
       - broker
@@ -55,7 +55,32 @@ services:
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
       CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
       CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
-      CONNECT_PLUGIN_PATH: "/usr/share/java,/opt/target"
+      #      CONNECT_PLUGIN_PATH: "/usr/share/java,/opt/target"
+      CONNECT_PLUGIN_PATH: "/usr/share/confluent-hub-components,/usr/share/java"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
     volumes:
       - "./target:/opt/target"
+
+  mongo:
+    image: mongo:4.4
+    hostname: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: connect
+      MONGO_INITDB_ROOT_PASSWORD: connect
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: connect
+      ME_CONFIG_MONGODB_ADMINPASSWORD: connect
+
+#  postgres:
+#    image: postgres:11
+#    hostname: postgres
+#    environment:
+#      POSTGRES_USER: connect
+#      POSTGRES_PASSWORD: connect
+#      POSTGRES_DB: connect

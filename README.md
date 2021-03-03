@@ -89,6 +89,11 @@ JMESPath [tutorial][jmespath-tutorial], [examples][jmespath-examples]
 and [specification][jmespath-spec] to learn about the supported
 syntax.
 
+## Demo
+
+See the [`demo` subfolder](./demo) for a Docker-based setup to test the
+Kafka Connect JMESPath plugin locally.
+
 ## License
 
 This codebase is licensed under the Apache License 2.0. See the
