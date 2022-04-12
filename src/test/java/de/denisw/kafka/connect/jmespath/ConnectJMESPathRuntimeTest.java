@@ -99,6 +99,7 @@ class ConnectJMESPathRuntimeTest {
 
     @Test
     void toStringMethod() {
+        assertEquals("null", runtime.toString(null), "null");
         assertEquals("true", runtime.toString(true), "boolean");
         assertEquals("123", runtime.toString(123L), "long");
         assertEquals("123.45", runtime.toString(123.45), "double");

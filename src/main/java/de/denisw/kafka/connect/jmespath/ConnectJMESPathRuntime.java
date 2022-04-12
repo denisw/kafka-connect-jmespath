@@ -163,7 +163,9 @@ public class ConnectJMESPathRuntime extends BaseRuntime<Object> {
 
     @SuppressWarnings("unchecked")
     private String toJson(Object value) {
-        if (value instanceof String) {
+        if (value == null) {
+            return "null";
+        } else if (value instanceof String) {
             String escaped = ((String) value).replace("\"", "\\\"");
             return String.format("\"%s\"", escaped);
         } else if (value instanceof List) {
