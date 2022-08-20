@@ -51,4 +51,47 @@ public class JMESPathTest {
         expected.put("WashingtonCities", "Bellevue, Olympia, Seattle");
         assertEquals(expected, result);
     }
+
+    @Test
+    void readmeExample() {
+        ConnectJMESPathRuntime runtime = new ConnectJMESPathRuntime();
+
+        Expression<Object> expression = runtime.compile(
+                "publishDate.year < `2000`");
+
+        Schema dateSchema = SchemaBuilder.struct()
+                .name("Date")
+                .field("day", Schema.INT32_SCHEMA)
+                .field("month", Schema.INT32_SCHEMA)
+                .field("year", Schema.INT32_SCHEMA)
+                .build();
+
+        Schema bookSchema = SchemaBuilder.struct()
+                .name("Book")
+                .field("name", Schema.STRING_SCHEMA)
+                .field("author", Schema.STRING_SCHEMA)
+                .field("publishDate", dateSchema)
+                .build();
+
+        Object book1 = new Struct(bookSchema)
+                .put("name", "Design Patterns: Elements of Reusable Object-Oriented Software")
+                .put("author", "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm")
+                .put("publishDate", new Struct(dateSchema)
+                        .put("day", 31)
+                        .put("month", 10)
+                        .put("year", 1994));
+        Object book2 =  new Struct(bookSchema)
+                .put("name", "Designing Data-Intensive Applications")
+                .put("author", "Martin Kleppmann")
+                .put("publishDate", new Struct(dateSchema)
+                        .put("day", 25)
+                        .put("month", 4)
+                        .put("year", 2015));
+
+        Object result1 = expression.search(book1);
+        Object result2 = expression.search(book2);
+
+        assertEquals(true, result1, "1994 < 2000");
+        assertEquals(false, result2, "2015 > 2000");
+    }
 }

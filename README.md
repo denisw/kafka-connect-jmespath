@@ -50,7 +50,7 @@ Skip records whose nested `publishDate.year` field is below 2000:
 
 "predicates": "Before2000",
 "predicates.Before2000.type": "de.denisw.kafka.connect.jmespath.MatchesJMESPath$Value",
-"predicates.Before2000.query": "publishDate.year < 2000"
+"predicates.Before2000.query": "publishDate.year < `2000`"
 ```
 
 Process only records whose `author` equals "Stephen Hawking",
@@ -77,7 +77,7 @@ the whole key:
 
 "predicates": "NullKey",
 "predicates.NullKey.type": "de.denisw.kafka.connect.jmespath.MatchesJMESPath$Key",
-"predicates.NullKey.query": "@ == null"
+"predicates.NullKey.query": "@ == `null`"
 ```
 
 ### Configuration Reference
